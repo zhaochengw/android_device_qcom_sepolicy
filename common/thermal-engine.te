@@ -23,3 +23,6 @@ allow thermal-engine sysfs_thermal:lnk_file read;
 qmux_socket(thermal-engine);
 allow thermal-engine sysfs_mpdecision:file rw_file_perms;
 r_dir_file(thermal-engine, sysfs_ssr);
+
+allow thermal-engine self:netlink_kobject_uevent_socket create;
+allow thermal-engine socket_device:dir write;

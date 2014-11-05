@@ -6,3 +6,5 @@ userdebug_or_eng(`
   allow ssr_diag diag_device:chr_file rw_file_perms;
   allow ssr_diag sysfs:file rw_file_perms;
 ')
+
+allow ssr_diag self:netlink_kobject_uevent_socket { create };

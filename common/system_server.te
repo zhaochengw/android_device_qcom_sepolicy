@@ -37,8 +37,12 @@ allow system_server location_data_file:sock_file rw_file_perms;
 
 #For wifistatemachine
 allow system_server kernel:key search;
+
 allow system_server wbc_service:service_manager add;
 allow system_server digitalpen_service:service_manager add;
 
 #For ssr
 allow system_server ssr_device:chr_file { read open };
+
+#For A Family WifiStateMachine to access wpa_wlan0 socket
+allow system_server init:unix_dgram_socket sendto;

@@ -1,0 +1,6 @@
+# rmt_storage - rmt_storage daemon
+allow rmt_storage rpmb_device:blk_file { open read };
+allow rmt_storage ssd_device:blk_file { open read write };
+allow rmt_storage property_socket:sock_file write;
+allow rmt_storage init:unix_stream_socket connectto;
+allow rmt_storage ctl_default_prop:property_service set;

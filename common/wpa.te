@@ -7,3 +7,6 @@ allow wpa proc_net:file write;
 
 # allow wpa_supplicant to send back wifi information to cnd
 allow wpa cnd:unix_dgram_socket sendto;
+
+allow wpa devpts:chr_file { read write getattr };
+allow wpa init:unix_dgram_socket { read write };
