@@ -13,6 +13,9 @@ allow mm-pp-daemon graphics_device:dir search;
 allow mm-pp-daemon persist_file:dir rw_dir_perms;
 allow mm-pp-daemon persist_file:file create_file_perms;
 
+# Allow for directory search only to '/persist'
+allow mm-pp-daemon persist_file:dir search;
+
 # Allow reading/writing data config files
 allow mm-pp-daemon display_config:dir create_dir_perms;
 allow mm-pp-daemon display_config:file create_file_perms;
@@ -50,3 +53,5 @@ unix_socket_connect(mm-pp-daemon, property, init)
 unix_socket_connect(mm-pp-daemon, pps, init)
 allow mm-pp-daemon init:unix_stream_socket listen;
 allow mm-pp-daemon init:unix_stream_socket accept;
+allow mm-pp-daemon init:unix_stream_socket { read write };
+allow mm-pp-daemon system_server:unix_stream_socket { read write };

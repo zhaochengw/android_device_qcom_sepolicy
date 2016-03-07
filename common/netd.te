@@ -10,3 +10,5 @@ unix_socket_connect(netd, cnd, cnd)
 
 allow netd wfdservice:fd use;
 allow netd wfdservice:tcp_socket rw_socket_perms;
+
+allow netd smem_log_device:chr_file rw_file_perms;

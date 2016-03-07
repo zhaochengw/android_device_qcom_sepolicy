@@ -34,7 +34,7 @@ allow sensors sensors_device:chr_file rw_file_perms;
 allow sensors persist_file:dir r_dir_perms;
 allow sensors sensors_persist_file:dir create_dir_perms;
 allow sensors sensors_persist_file:file create_file_perms;
-
+allow sensors persist_file:file { read getattr open write };
 # Access to execmem
 allow sensors self:process execmem;
 
@@ -50,11 +50,16 @@ allow sensors smd_device:chr_file rw_file_perms;
 allow sensors smem_log_device:chr_file rw_file_perms;
 allow sensors device_latency:chr_file w_file_perms;
 
+type_transition sensors apk_data_file:sock_file sensors_socket "sensor_ctl_socket";
+allow sensors apk_data_file:dir rw_dir_perms;
+allow sensors apk_data_file:dir { write remove_name add_name };
+allow sensors apk_data_file:sock_file unlink;
+
 #diag read/write
 diag_rw(sensors);
 
 # Access to tests from userdebug/eng builds
 userdebug_or_eng(`
   domain_auto_trans(shell, sensors_exec, sensors)
-  allow sensors diag_device:chr_file rw_file_perms;
 ')
+allow sensors diag_device:chr_file rw_file_perms;

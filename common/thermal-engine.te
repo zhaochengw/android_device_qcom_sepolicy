@@ -12,11 +12,12 @@ allow thermal-engine thermal_device:chr_file rw_file_perms;
 allow thermal-engine sysfs_devices_system_cpu:file rw_file_perms;
 #This is required to access smem log device
 allow thermal-engine smem_log_device:chr_file rw_file_perms;
-allow thermal-engine self:capability { dac_read_search dac_override fsetid sys_boot };
+allow thermal-engine self:capability { dac_read_search dac_override fsetid chown };
+allow thermal-engine self:capability net_admin;
 allow thermal-engine self:socket create_socket_perms;
 #This is required to access thermal sockets
 allow thermal-engine thermal_socket:dir w_dir_perms;
-allow thermal-engine thermal_socket:sock_file { create setattr open read write };
+allow thermal-engine thermal_socket:sock_file { create setattr open read write unlink };
 #This is required for thermal sysfs access
 allow thermal-engine sysfs_thermal:dir r_dir_perms;
 allow thermal-engine sysfs_thermal:file rw_file_perms;
@@ -28,6 +29,8 @@ allow thermal-engine sysfs_mpdecision:file rw_file_perms;
 #This is required for diag access
 diag_rw(thermal-engine);
 r_dir_file(thermal-engine, sysfs_ssr);
-#This is required for battery supply access
-allow thermal-engine sysfs_battery_supply:dir r_dir_perms;
-allow thermal-engine sysfs_battery_supply:file rw_file_perms;
+
+#Label the thermal sockets correctly
+type_transition thermal-engine socket_device:sock_file thermal_socket;
+#Allow creation of the sockets in the socket dir
+allow thermal-engine socket_device:dir { write add_name remove_name };

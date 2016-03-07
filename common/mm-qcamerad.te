@@ -11,6 +11,11 @@ allow mm-qcamerad camera_socket:sock_file { create unlink write };
 allow mm-qcamerad camera_socket:dir w_dir_perms;
 unix_socket_connect(mm-qcamerad, sensors, sensors)
 
+#Allow connections between sensor manager and mm-qcamerad
+allow mm-qcamerad system_server:unix_stream_socket { read write };
+binder_call(mm-qcamerad, system_server);
+binder_use(mm-qcamerad);
+
 allow mm-qcamerad self:process execmem;
 # Interact with other media devices
 allow mm-qcamerad camera_device:dir search;
@@ -43,3 +48,17 @@ allow mm-qcamerad port:tcp_socket name_bind;
 
 #Alow  mm-qcamera-daemon to open, read, write and send ioctl to qdsp device.
 allow mm-qcamerad qdsp_device:chr_file { open read write ioctl };
+
+# Create front and back camera sockets (/data/cam_socket[01])
+type_transition mm-qcamerad system_data_file:sock_file camera_socket "cam_socket0";
+type_transition mm-qcamerad system_data_file:sock_file camera_socket "cam_socket1";
+allow mm-qcamerad camera_socket:sock_file { create unlink setattr };
+allow mm-qcamerad system_data_file:dir w_dir_perms;
+allow mm-qcamerad system_data_file:sock_file unlink;
+allow mm-qcamerad system_file:file execmod;
+
+# Connect to sensor socket (/data/app/sensor_ctl_socket)
+unix_socket_connect(mm-qcamerad, sensors, sensors)
+allow mm-qcamerad sensors_socket:sock_file read;
+
+allow mm-qcamerad system_server:unix_stream_socket rw_socket_perms;

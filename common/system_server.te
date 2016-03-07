@@ -78,3 +78,9 @@ allow system_server tee_device:chr_file rw_file_perms;
 
 #diag read/write
 diag_rw(system_server);
+
+allow system_server apk_data_file:sock_file { rw_file_perms getattr };
+allow system_server sensors_data_file:dir search;
+
+# smem
+allow system_server smem_log_device:chr_file rw_file_perms;
