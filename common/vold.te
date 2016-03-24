@@ -10,3 +10,6 @@ allow vold proc_dirty_ratio:file rw_file_perms;
 allow vold smem_log_device:chr_file rw_file_perms;
 allow vold vfat:filesystem { relabelto relabelfrom };
 allow vold labeledfs:filesystem { relabelfrom };
+allow vold persist_file:dir { read write open getattr };
+allow vold persist_file:file { read write open getattr };
+allow vold mmc_block_device:blk_file rw_file_perms;

@@ -26,6 +26,7 @@ allow sensors socket_device:dir rw_dir_perms;
 allow sensors system_data_file:dir create_dir_perms;
 allow sensors sensors_data_file:dir create_dir_perms;
 allow sensors sensors_data_file:file create_file_perms;
+allow sensors system_data_file:file { write open };
 
 # Access sensor nodes (/dev/msm_dsps, /dev/sensors)
 allow sensors sensors_device:chr_file rw_file_perms;
